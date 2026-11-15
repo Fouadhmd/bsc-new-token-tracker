@@ -4,12 +4,13 @@ import type { DexScreenerPair, Token } from '@/lib/types';
 const DEXSCREENER_BASE = 'https://api.dexscreener.com';
 
 export async function fetchAllBSCPairs(): Promise<DexScreenerPair[]> {
-  const url = `${DEXSCREENER_BASE}/token-pairs/v1/bsc`;
-  const response = await axios.get<DexScreenerPair[]>(url, {
+  const url = `${DEXSCREENER_BASE}/latest/dex/search?q=bsc`;
+  const response = await axios.get<{ pairs: DexScreenerPair[] }>(url, {
     timeout: 30000,
     headers: { 'Accept': 'application/json' },
   });
-  return response.data;
+  // Filter for BSC chain only
+  return response.data.pairs.filter(p => p.chainId === 'bsc');
 }
 
 export async function fetchPairByAddress(pairAddress: string): Promise<DexScreenerPair | null> {
