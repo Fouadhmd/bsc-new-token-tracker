@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useMemo } from 'react';
 import { MetaBanner } from './components/MetaBanner';
 import { FilterBar } from './components/FilterBar';
 import { TokenTable } from './components/TokenTable';
@@ -8,10 +9,47 @@ import type { Token, Meta } from '@/lib/types';
 import tokensData from '@/public/data/tokens.json';
 import metaData from '@/public/data/meta.json';
 
-const tokens: Token[] = tokensData as Token[];
+const allTokens: Token[] = tokensData as Token[];
 const meta: Meta = metaData as Meta;
 
 export default function HomePageClient() {
+  const [filters, setFilters] = useState({
+    minLiq: 0,
+    maxAge: 48,
+    safeOnly: false,
+  });
+
+  const [sort, setSort] = useState({
+    by: 'volume',
+    direction: 'desc',
+  });
+
+  const filteredTokens = useMemo(() => {
+    return allTokens.filter(token => {
+      if (token.liquidityUsd < filters.minLiq) return false;
+      if (token.ageHours > filters.maxAge) return false;
+      if (filters.safeOnly && token.isHoneypotRisk) return false;
+      return true;
+    }).sort((a, b) => {
+      let valA = 0;
+      let valB = 0;
+      if (sort.by === 'volume') {
+        valA = a.volume24h;
+        valB = b.volume24h;
+      } else if (sort.by === 'liquidity') {
+        valA = a.liquidityUsd;
+        valB = b.liquidityUsd;
+      } else if (sort.by === 'age') {
+        valA = a.ageHours;
+        valB = b.ageHours;
+      } else if (sort.by === 'priceChange') {
+        valA = a.priceChange24h;
+        valB = b.priceChange24h;
+      }
+      return sort.direction === 'desc' ? valB - valA : valA - valB;
+    });
+  }, [filters, sort]);
+
   return (
     <main className="max-w-6xl mx-auto px-4 py-8">
       {/* Subtle Top Alert Bar */}
@@ -39,15 +77,20 @@ export default function HomePageClient() {
       <MetaBanner
         fetchedAt={meta.fetchedAt}
         totalPairsScanned={meta.totalPairsScanned}
-        tokensAfterFilter={meta.tokensAfterFilter}
+        tokensAfterFilter={filteredTokens.length}
         nextRefresh={meta.nextRefresh}
       />
 
       {/* Filter Controls */}
-      <FilterBar tokens={tokens} onFilteredChange={() => {}} />
+      <FilterBar 
+        filters={filters} 
+        setFilters={setFilters} 
+        sort={sort} 
+        setSort={setSort} 
+      />
 
       {/* Core Table */}
-      <TokenTable tokens={tokens} />
+      <TokenTable tokens={filteredTokens} />
 
       {/* Minimal Footer */}
       <footer className="mt-16 pt-8 border-t border-slate-800/60 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono">
