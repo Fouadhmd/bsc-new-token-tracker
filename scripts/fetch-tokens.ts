@@ -34,7 +34,7 @@ function mapToToken(pair: DexScreenerPair): Token {
     volume24h: pair.volume?.h24 || 0,
     liquidityUsd: pair.liquidity?.usd || 0,
     marketCap: pair.fdv || 0,
-    pairCreatedAt: pairCreatedAt: pair.pairCreatedAt ? new Date(pair.pairCreatedAt).toISOString() : new Date().toISOString(),
+    pairCreatedAt: pair.pairCreatedAt ? new Date(pair.pairCreatedAt).toISOString() : new Date().toISOString(),
     ageHours,
     contractVerified: false,
     liquidityLocked: false,
