@@ -5,7 +5,6 @@ import { FilterBar } from './components/FilterBar';
 import { TokenTable } from './components/TokenTable';
 import type { Token, Meta } from '@/lib/types';
 
-// These are imported at build time from generated JSON
 import tokensData from '@/public/data/tokens.json';
 import metaData from '@/public/data/meta.json';
 
@@ -14,18 +13,29 @@ const meta: Meta = metaData as Meta;
 
 export default function HomePageClient() {
   return (
-    <main className="max-w-7xl mx-auto">
-      <header className="mb-8">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-          <h1 className="text-3xl font-bold flex items-center gap-3">
-            <span>🟡</span> BSC New Token Tracker
+    <main className="max-w-6xl mx-auto px-4 py-8">
+      {/* Subtle Top Alert Bar */}
+      <div className="bg-slate-900/40 border border-slate-800/80 rounded-md p-3 mb-8 flex items-center justify-between text-xs text-slate-400">
+        <span className="flex items-center gap-2">
+          <span className="text-amber-500 font-bold">▲ DISCLOSURE</span> 
+          <span>Heuristics-based automated tracking. High risk zone — DYOR.</span>
+        </span>
+        <span className="font-mono text-slate-500 hidden sm:inline">v1.0.0</span>
+      </div>
+
+      {/* Hero Header */}
+      <header className="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
+            BSC TOKEN RADAR
           </h1>
-          <p className="text-sm text-slate-500 max-w-2xl">
-            ⚠️ <strong>HEURISTICS ONLY — NOT FINANCIAL ADVICE — DYOR.</strong> Safety badges are automated checks (contract verified, liquidity locked, holder count, concentration). They miss many risks. Always verify manually before trading.
+          <p className="text-xs text-slate-500 mt-1 font-mono">
+            Automated screening of liquidity deployments on Binance Smart Chain
           </p>
         </div>
       </header>
 
+      {/* Metrics Banner */}
       <MetaBanner
         fetchedAt={meta.fetchedAt}
         totalPairsScanned={meta.totalPairsScanned}
@@ -33,13 +43,20 @@ export default function HomePageClient() {
         nextRefresh={meta.nextRefresh}
       />
 
+      {/* Filter Controls */}
       <FilterBar tokens={tokens} onFilteredChange={() => {}} />
 
+      {/* Core Table */}
       <TokenTable tokens={tokens} />
 
-      <footer className="mt-12 pt-6 border-t border-slate-800 text-sm text-slate-500 text-center">
-        <p>Data from <a href="https://dexscreener.com" target="_blank" rel="noopener">DexScreener</a> • Enriched via <a href="https://bscscan.com" target="_blank" rel="noopener">BSCScan</a> • Refreshes every 15 min via GitHub Actions</p>
-        <p className="mt-2">Built for personal alpha hunting • <a href="https://github.com" target="_blank" rel="noopener">Open Source</a></p>
+      {/* Minimal Footer */}
+      <footer className="mt-16 pt-8 border-t border-slate-800/60 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono">
+        <div>
+          Data via DexScreener & BSCScan
+        </div>
+        <div>
+          GitHub Actions Sync • Open Source
+        </div>
       </footer>
     </main>
   );

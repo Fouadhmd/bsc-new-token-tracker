@@ -24,23 +24,25 @@ export function MetaBanner({ fetchedAt, totalPairsScanned, tokensAfterFilter, ne
     return () => clearInterval(interval);
   }, [fetchedAt]);
 
-  const isStale = Date.now() - new Date(fetchedAt).getTime() > 60 * 60 * 1000;
-
   return (
-    <div className="flex flex-wrap items-center justify-between gap-4 mb-6 p-4 rounded-lg bg-slate-800/50 border border-slate-700">
-      <div className="flex items-center gap-4 text-sm">
-        <span className="text-slate-400">Last updated:</span>
-        <span className="font-mono font-medium">{age}</span>
-        {isStale && (
-          <span className="px-2 py-0.5 rounded text-xs bg-yellow-900/50 text-yellow-300 border border-yellow-500/30 animate-pulse">
-            {'⚠️ Data may be stale (>1h)'}
-          </span>
-        )}
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 my-6">
+      <div className="bg-slate-900/60 border border-slate-800 p-3 rounded-md">
+        <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-mono">Last Updated</span>
+        <span className="text-sm font-semibold text-slate-200 font-mono mt-0.5 block">{age || 'Just now'}</span>
       </div>
-      <div className="flex items-center gap-6 text-sm text-slate-400">
-        <span>Scanned: <span className="text-white font-mono">{totalPairsScanned.toLocaleString()}</span> pairs</span>
-        <span>Showing: <span className="text-white font-mono">{tokensAfterFilter}</span> tokens</span>
-        <span>Next refresh: <span className="text-white font-mono">{new Date(nextRefresh).toLocaleTimeString()}</span></span>
+      <div className="bg-slate-900/60 border border-slate-800 p-3 rounded-md">
+        <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-mono">Scanned Pairs</span>
+        <span className="text-sm font-semibold text-slate-200 font-mono mt-0.5 block">{totalPairsScanned.toLocaleString()}</span>
+      </div>
+      <div className="bg-slate-900/60 border border-slate-800 p-3 rounded-md">
+        <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-mono">Passing Tokens</span>
+        <span className="text-sm font-semibold text-emerald-400 font-mono mt-0.5 block">{tokensAfterFilter}</span>
+      </div>
+      <div className="bg-slate-900/60 border border-slate-800 p-3 rounded-md">
+        <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-mono">Next Sync</span>
+        <span className="text-sm font-semibold text-slate-200 font-mono mt-0.5 block">
+          {new Date(nextRefresh).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        </span>
       </div>
     </div>
   );

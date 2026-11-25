@@ -14,12 +14,12 @@ export function TokenRow({ token, index }: TokenRowProps) {
 
   return (
     <tr className="group transition-colors duration-150 hover:bg-slate-800/40">
-      <td className="font-mono text-slate-600 text-xs py-4 px-4">{index + 1}</td>
+      <td className="font-mono text-slate-600 text-[10px] py-4 px-4">{index + 1}</td>
       <td className="py-4 px-4">
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-100 tracking-tight leading-none">${token.symbol}</span>
-            <span className={`text-[10px] font-mono font-medium px-1 rounded ${priceChangeClass} bg-white/5`}>
+            <span className="font-bold text-slate-100 tracking-tight text-sm">${token.symbol}</span>
+            <span className={`text-[10px] font-mono font-bold px-1.5 py-0.5 rounded ${priceChangeClass} bg-slate-900/80 border border-current/10`}>
               {priceChangePrefix}{token.priceChange24h.toFixed(1)}%
             </span>
           </div>
@@ -27,9 +27,9 @@ export function TokenRow({ token, index }: TokenRowProps) {
             href={token.bscScanUrl} 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="text-[10px] text-slate-500 font-mono hover:text-blue-400 mt-1"
+            className="text-[10px] text-slate-600 font-mono hover:text-blue-400 mt-1.5 transition-colors"
           >
-            {token.address.slice(0, 6)}...{token.address.slice(-4)}
+            {token.address.slice(0, 8)}...{token.address.slice(-6)}
           </a>
         </div>
       </td>
