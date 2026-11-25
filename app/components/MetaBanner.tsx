@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
 interface MetaBannerProps {
   fetchedAt: string;
@@ -10,40 +10,44 @@ interface MetaBannerProps {
 }
 
 export function MetaBanner({ fetchedAt, totalPairsScanned, tokensAfterFilter, nextRefresh }: MetaBannerProps) {
-  const [age, setAge] = useState('');
-
-  useEffect(() => {
-    const update = () => {
-      const diff = Date.now() - new Date(fetchedAt).getTime();
-      const mins = Math.floor(diff / 60000);
-      const hours = Math.floor(mins / 60);
-      setAge(hours > 0 ? `${hours}h ${mins % 60}m ago` : `${mins}m ago`);
-    };
-    update();
-    const interval = setInterval(update, 30000);
-    return () => clearInterval(interval);
-  }, [fetchedAt]);
-
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 my-6">
-      <div className="bg-slate-900/60 border border-slate-800 p-3 rounded-md">
-        <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-mono">Last Updated</span>
-        <span className="text-sm font-semibold text-slate-200 font-mono mt-0.5 block">{age || 'Just now'}</span>
-      </div>
-      <div className="bg-slate-900/60 border border-slate-800 p-3 rounded-md">
-        <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-mono">Scanned Pairs</span>
-        <span className="text-sm font-semibold text-slate-200 font-mono mt-0.5 block">{totalPairsScanned.toLocaleString()}</span>
-      </div>
-      <div className="bg-slate-900/60 border border-slate-800 p-3 rounded-md">
-        <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-mono">Passing Tokens</span>
-        <span className="text-sm font-semibold text-emerald-400 font-mono mt-0.5 block">{tokensAfterFilter}</span>
-      </div>
-      <div className="bg-slate-900/60 border border-slate-800 p-3 rounded-md">
-        <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-mono">Next Sync</span>
-        <span className="text-sm font-semibold text-slate-200 font-mono mt-0.5 block">
-          {new Date(nextRefresh).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+    <motion.div 
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.1 }}
+      className="grid grid-cols-2 md:grid-cols-4 gap-4 my-8"
+    >
+      <div className="bg-slate-800/40 border border-slate-700/50 backdrop-blur-md p-4 rounded-xl shadow-lg hover:border-blue-500/50 transition-all group">
+        <span className="text-xs text-slate-400 block font-medium">Pairs Scanned</span>
+        <span className="text-xl font-bold text-white font-mono mt-1 block group-hover:text-blue-400 transition-colors">
+          {totalPairsScanned.toLocaleString()}
         </span>
       </div>
-    </div>
+      
+      <div className="bg-slate-800/40 border border-slate-700/50 backdrop-blur-md p-4 rounded-xl shadow-lg hover:border-emerald-500/50 transition-all group">
+        <span className="text-xs text-slate-400 block font-medium">Matching Tokens</span>
+        <span className="text-xl font-bold text-emerald-400 font-mono mt-1 block flex items-center gap-2">
+          {tokensAfterFilter}
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+        </span>
+      </div>
+
+      <div className="bg-slate-800/40 border border-slate-700/50 backdrop-blur-md p-4 rounded-xl shadow-lg hover:border-purple-500/50 transition-all group">
+        <span className="text-xs text-slate-400 block font-medium">Network Status</span>
+        <span className="text-xl font-bold text-slate-200 font-mono mt-1 block group-hover:text-purple-400 transition-colors">
+          BSC Mainnet
+        </span>
+      </div>
+
+      <div className="bg-slate-800/40 border border-slate-700/50 backdrop-blur-md p-4 rounded-xl shadow-lg hover:border-amber-500/50 transition-all group">
+        <span className="text-xs text-slate-400 block font-medium">Auto Refresh</span>
+        <span className="text-xl font-bold text-amber-400 font-mono mt-1 block">
+          15m Sync
+        </span>
+      </div>
+    </motion.div>
   );
 }
