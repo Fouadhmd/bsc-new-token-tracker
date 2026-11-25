@@ -15,7 +15,7 @@ export function MetaBanner({ fetchedAt, totalPairsScanned, tokensAfterFilter, ne
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.08 }}
-      className="grid grid-cols-2 lg:grid-cols-4 gap-4 my-10"
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 my-8 sm:my-10"
     >
       <MetricCard
         label="Pairs Scanned"
@@ -76,12 +76,12 @@ function MetricCard({ label, value, accentColor, delay, children, pulse, isText 
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1], delay }}
       whileHover={{ y: -2, boxShadow: '0 12px 40px rgba(20, 20, 19, 0.1)' }}
-      className="relative bg-[var(--color-surface-card)] border border-[var(--color-hairline)] rounded-[var(--radius-lg)] p-5 transition-all duration-300"
+      className="relative bg-[var(--color-surface-card)] border border-[var(--color-hairline)] rounded-[var(--radius-lg)] p-4 sm:p-5 transition-all duration-300"
       style={{ '--accent': accentColor } as React.CSSProperties}
     >
       <div className="absolute top-0 left-0 right-0 h-0.5" style={{ background: `linear-gradient(90deg, var(--accent), transparent)` } as React.CSSProperties} />
       {pulse && (
-        <div className="absolute top-3 right-3 flex items-center gap-1">
+        <div className="absolute top-2 sm:top-3 right-2 sm:right-3 flex items-center gap-1">
           <motion.span
             animate={{ scale: [1, 1.3, 1], opacity: [0.6, 1, 0.6] }}
             transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
@@ -90,9 +90,9 @@ function MetricCard({ label, value, accentColor, delay, children, pulse, isText 
           />
         </div>
       )}
-      <div className="space-y-2">
-        <span className="text-[var(--color-muted)] text-xs font-medium tracking-wide uppercase">{label}</span>
-        <span className="text-2xl font-bold font-mono" style={{ color: isText ? 'var(--color-ink)' : accentColor }}>
+      <div className="space-y-1.5 sm:space-y-2">
+        <span className="text-[var(--color-muted)] text-[10px] sm:text-xs font-medium tracking-wide uppercase">{label}</span>
+        <span className="text-xl sm:text-2xl font-bold font-mono" style={{ color: isText ? 'var(--color-ink)' : accentColor }}>
           {value}
         </span>
         <div className="pt-1 border-t border-[var(--color-hairline-soft)]">

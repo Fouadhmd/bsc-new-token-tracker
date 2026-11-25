@@ -156,9 +156,9 @@ export default function HomePageClient() {
         >
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[var(--color-muted)]">
             <div className="flex items-center gap-2">
-              <span>Data via</span>
-              <a href="https://dexscreener.com" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--color-primary)] transition-colors">DexScreener</a>
-              <span>&</span>
+              <span className="mr-1">Data via</span>
+              <a href="https://dexscreener.com" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--color-primary)] transition-colors mr-1">DexScreener</a>
+              <span className="mr-1 ml-1"> & </span>
               <a href="https://bscscan.com" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--color-primary)] transition-colors">BSCScan</a>
             </div>
             <div className="flex items-center gap-4">
