@@ -12,25 +12,18 @@ export function TokenTable({ tokens }: TokenTableProps) {
   if (tokens.length === 0) {
     return (
       <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="text-center py-16 border border-[var(--color-hairline)] rounded-[var(--radius-xl)] bg-[var(--color-surface-card)] my-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="glass-panel rounded-2xl p-10 text-center my-6"
       >
-        <motion.div
-          animate={{ scale: [1, 1.02, 1] }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--radius-pill)] badge-pill mb-4"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
-          <span className="text-[var(--color-muted)] text-sm font-medium">No matching tokens</span>
-        </motion.div>
-        <p className="text-[var(--color-muted-soft)] text-sm">
-          Adjust your filters to see more results
-        </p>
+        <div className="flex flex-col items-center justify-center gap-3">
+          <div className="text-[var(--text-dim)] text-xs font-mono uppercase tracking-wider mb-2">
+            No matching tokens found
+          </div>
+          <div className="text-[var(--text-muted)] text-xs font-mono">
+            Try adjusting your liquidity or age filters
+          </div>
+        </div>
       </motion.div>
     );
   }
@@ -39,22 +32,22 @@ export function TokenTable({ tokens }: TokenTableProps) {
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.24 }}
-      className="table-wrapper"
+      transition={{ duration: 0.4, delay: 0.16 }}
+      className="glass-panel rounded-2xl overflow-hidden mb-8 border-t-4 border-blue-500/30"
     >
-      <table className="data-table">
+      <table className="w-full text-left text-xs font-mono divide-y divide-white/5">
         <thead>
-          <tr>
-            <th className="w-12" scope="col">#</th>
-            <th scope="col">Asset</th>
-            <th className="text-right" scope="col">Price</th>
-            <th className="text-right" scope="col">24h Vol</th>
-            <th className="text-right" scope="col">Liquidity</th>
-            <th className="text-right" scope="col">Age</th>
-            <th className="text-center" scope="col">Safety</th>
+          <tr className="bg-[#0a0c14]/50 text-[10px] uppercase tracking-wider text-[var(--text-dim)] border-b border-white/10">
+            <th className="py-4 px-5 w-8 text-center">#</th>
+            <th className="py-4 px-5">Asset</th>
+            <th className="py-4 px-5 text-right">Price</th>
+            <th className="py-4 px-5 text-right">24h Vol</th>
+            <th className="py-4 px-5 text-right">Liquidity</th>
+            <th className="py-4 px-5 text-right">Age</th>
+            <th className="py-4 px-5 text-center w-32">Safety</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="divide-y divide-white/5">
           {tokens.map((token, i) => (
             <TokenRow key={token.address} token={token} index={i} />
           ))}
